@@ -1,0 +1,16 @@
+Trying to get the bulkInitialLoad going.
+
+I created a new fn on the backend, called bulkInitialLoadForPureJs so I can get the Banner image url
+I changed the Banner to be the shared id for the file
+The error for it says that A JSONObject text must begin with '{' at 1 [character 2 line 1]
+
+I'm thinking that the data needs to corrected to be put into the json object.
+It may also be worth returning a json object instead of text too.
+
+Right now I'm trying to figure out how best to create a shared_link so I can get the image urls.
+I'm thinking that automaticaly creating them is best, so the staff don't have to manually do this.
+One option is to use the box.com api, but it seems to need extra dependencies:
+https://developer.box.com/guides/shared-links/update/
+
+The other is to write a put command with pure Java and HttpUrlConnection:
+https://www.journaldev.com/7148/java-httpurlconnection-example-java-http-request-get-post
