@@ -165,619 +165,618 @@
 		// DataManager
 		////////////////////////////////////////////////////////////////////////////////////
 
-        class DataManager {
+	class DataManager {
 
-            // Use this for initialization
-            constructor() {
+		// Use this for initialization
+		constructor() {
 
-			this.domParser = new DOMParser();
-            this.currGameIdxInEachCategory = []; // List<int>
-			this.gameDataList = []; // List<GameData>
-			//this.hostUrl = "http://www.aquinsgreatgames.com:8080/"; // String(url)
-			this.hostUrl = "http://localhost:8080/";
-			this.hostFolderId = "0"; // String
-			this.gamesFolderId = "0"; // String
-			this.textFolderId = "0"; // String
-			this.genresListId = "0"; // String
-			this.gameFileTopDir; // String
-			this.gameNameFileDirArr = []; // String[]
-			this.gamesNameList; // String[]
-			this.gamesNameDict; // Dictionary<String, String>
-			this.globalStr; // static String
+		this.domParser = new DOMParser();
+		this.currGameIdxInEachCategory = []; // List<int>
+		this.gameDataList = []; // List<GameData>
+		//this.hostUrl = "http://www.aquinsgreatgames.com:8080/"; // String(url)
+		this.hostUrl = "http://localhost:8080/";
+		this.hostFolderId = "0"; // String
+		this.gamesFolderId = "0"; // String
+		this.textFolderId = "0"; // String
+		this.genresListId = "0"; // String
+		this.gameFileTopDir; // String
+		this.gameNameFileDirArr = []; // String[]
+		this.gamesNameList; // String[]
+		this.gamesNameDict; // Dictionary<String, String>
+		this.globalStr; // static String
 
-			this.difficultyFilters = ["Easy", "Med.", "Hard"]; // String[]
+		this.difficultyFilters = ["Easy", "Med.", "Hard"]; // String[]
 
-			this.singleMultiFilters = ["Single", "Multi", "SingleMulti"]; // String[]
+		this.singleMultiFilters = ["Single", "Multi", "SingleMulti"]; // String[]
 
-			this.categoryFilters = [];// { "Shooter", "Action",               // String[]
-			//"Art", "Horror",
-			//"Sports", "Puzzle",
-			//"ForKids", "StaffFav",
-			//"Exploration", "Tutorial",
-			//"Simulation", "Movie",
-			//"Adventure", "Fantasy"};
+		this.categoryFilters = [];// { "Shooter", "Action",               // String[]
+		//"Art", "Horror",
+		//"Sports", "Puzzle",
+		//"ForKids", "StaffFav",
+		//"Exploration", "Tutorial",
+		//"Simulation", "Movie",
+		//"Adventure", "Fantasy"};
 
-			this.allCategoryFilters = [];// {"Easy", "Med.", "Hard",
-			//"Single", "Multi" };//,
-			//"Shooter", "Action",
-			//"Art", "Horror",
-			//"Sports", "Puzzle",
-			//"ForKids", "StaffFav",
-			//"Exploration", "Tutorial",
-			//"Simulation", "Movie",
-			//"Adventure", "Fantasy"};
-			//Debug.log("Data Manager start");
-			//hostUrl = "http://www.aquinsgreatgames.com:8080/";
-			this.currGameIdxInEachCategory = [];// new List<int>
-				//();
-			this.gamesNameDict = []; // new Dictionary<string, string>
+		this.allCategoryFilters = [];// {"Easy", "Med.", "Hard",
+		//"Single", "Multi" };//,
+		//"Shooter", "Action",
+		//"Art", "Horror",
+		//"Sports", "Puzzle",
+		//"ForKids", "StaffFav",
+		//"Exploration", "Tutorial",
+		//"Simulation", "Movie",
+		//"Adventure", "Fantasy"};
+		//Debug.log("Data Manager start");
+		//hostUrl = "http://www.aquinsgreatgames.com:8080/";
+		this.currGameIdxInEachCategory = [];// new List<int>
+			//();
+		this.gamesNameDict = []; // new Dictionary<string, string>
 
-					// Get the categories
-					//str = str.Replace("\n", "");
-					//string[] strArr = str.Split('\r');
-					//categoryFilters = strArr;
-					//let stringArr = []; // String[]
+		// Get the categories
+		//str = str.Replace("\n", "");
+		//string[] strArr = str.Split('\r');
+		//categoryFilters = strArr;
+		//let stringArr = []; // String[]
 
-					this.defaultSprite = ""; // String (Sprite url)
-					this.gamePreviewPanel; // ptr to gamePreviewPanel
-					this.loadingPanel; // ptr to loadingPanel
-					this.imgPtr3; // RawImage
-					this.imgPtr4; // RawImage
+		this.defaultSprite = ""; // String (Sprite url)
+		this.gamePreviewPanel; // ptr to gamePreviewPanel
+		this.loadingPanel; // ptr to loadingPanel
+		this.imgPtr3; // RawImage
+		this.imgPtr4; // RawImage
 
-					//dataManager; // private static DataManager
+		//dataManager; // private static DataManager
 
 
-					//let crGetCategory =
-					this.Web_GetCategories(); // IEnumerator, creates an async function
-					//StartCoroutine(crGetCategory);
-					}
+		//let crGetCategory =
+		this.Web_GetCategories(); // IEnumerator, creates an async function
+		//StartCoroutine(crGetCategory);
+		}
 
-					// GameData
-					// This is the base data we need
-					GameData_factory(_gameNameFileDir, _gameCategories, _gameFolderId, _gameDescription, _gameSpritesUrls, _gameVidUrl, _isLoaded){
-					let GameData = {
-					gameNameFileDir: _gameNameFileDir, // String
-					gameCategories: _gameCategories, // String[]
+		// GameData
+		// This is the base data we need
+		GameData_factory(_gameNameFileDir, _gameCategories, _gameFolderId, _gameDescription, _gameSpritesUrls, _gameVidUrl, _isLoaded){
+			let GameData = {
+				gameNameFileDir: _gameNameFileDir, // String
+				gameCategories: _gameCategories, // String[]
 
-					gameFolderId: _gameFolderId, // String, Grab on initial load
-					gameDescription: _gameDescription, // String
-					gameSpriteUrls: _gameSpritesUrls, // String[], Grab banner on initial load
-					gameVidUrl: _gameVidUrl, // String
-					isLoaded: _isLoaded,  // Bool Tells whether we've already loaded all this game's data
-					// If true, it's in the file structure
-					};
-					return GameData;
-					}
+				gameFolderId: _gameFolderId, // String, Grab on initial load
+				gameDescription: _gameDescription, // String
+				gameSpriteUrls: _gameSpritesUrls, // String[], Grab banner on initial load
+				gameVidUrl: _gameVidUrl, // String
+				isLoaded: _isLoaded,  // Bool Tells whether we've already loaded all this game's data
+				// If true, it's in the file structure
+			};
+			return GameData;
+		}
 
-					initialLoadObj()
-					{
-					let _toString = function(_Banner)//, _name, _id, _cats)
-					{
-					let output = "";
-					output += "Banner: " + _Banner;
+		initialLoadObj()
+		{
+			let _toString = function(_Banner)//, _name, _id, _cats)
+			{
+			let output = "";
+			output += "Banner: " + _Banner;
+			/*
+			output += ", name: " + name;
+			output += ", id: " + id;
+			output += ", categories: " + categories;
+			*/
+			console.log("returning output");
+			return output;
+			}
+			/*
+			let _toGameData = function()
+			{
+				GameData newGD;
+				newGD.gameNameFileDir = name;
+				newGD.gameCategories = categories;
+				newGD.gameFolderId = id; // Grab on initial load
+				newGD.gameDescription = "";
+				newGD.gameSprites = new Dictionary<string, Sprite>
+				();
+				newGD.gameVidUrl = "";
+				newGD.isLoaded = false; // Tells whether we've already loaded all this game's data
+				return newGD;
+				}
+				*/
+
+				let initialLoadReturnObj = {
+					Banner: "Banner", // String (url)
+					//name: "name", // String
+					//id: 0, // int
+					//categories: [] // String[]
+					toString: _toString("Banner"),//, name, id, categories) // Fn to turn the data into a outputtable string
+					//toGameData: _toGameData // Fn to turn the data into data for the page
+				};
+				return initialLoadReturnObj;
+			}
+
+			/// <summary>
+				/// The instance of dataManager that is holding the data for all games
+				/// This must be created first
+				///
+			///</summary>
+			//public static DataManager instance
+			//{
+			//    get
+			//    {
+			//        if (!dataManager) {
+			//            dataManager = FindObjectOfType(typeof (DataManager)) as DataManager;
+
+			//            if (!dataManager) {
+			//                //Debug.error("There needs to be one active EventManger script on a GameObject in your scene.");
+			//            }
+			//            else {
+			//                //Debug.log("dataManager FillGameDataList Call");
+			//                //dataManager.FillGameDataList();
+			//            }
+			//        }
+
+			//        return dataManager;
+			//    }
+			//}
+
+			//public static Sprite ByteArrayToSprite(byte[] arr) // Return Sprite
+			//{
+			//    Texture2D texture2D = new Texture2D(100, 100, TextureFormat.RGBA32, false);
+			//    //if (UnityEngine.ImageConversion.LoadImage(texture2D, arr))
+			//    //    //if (texture2D.LoadImage(arr))
+			//    //    Debug.log("LoadImage success!");
+			//    //else
+			//    //    Debug.log("LoadImage FAILURE!!!!!!!");
+			//    texture2D.LoadRawTextureData(arr);
+			//    texture2D.Apply();
+
+			//    return Sprite.Create(texture2D, new Rect(0, 0, texture2D.width, texture2D.height), new Vector2(0, 0));
+			//}
+
+			//public static Sprite Texture2dToSprite(Texture2D texture2D)
+			//{
+			//    return Sprite.Create(texture2D, new Rect(0, 0, texture2D.width, texture2D.height), new Vector2(0, 0));
+			//}
+
+			async Web_GetCategories() // returns IEnumerator
+			{
+				//TurnOnLoadingPanel();
+
+				// Get the two folders under the top-level folder (which is always 0)
+				let topFolderList = []; // String[]
+				const dict = new Map(); //  Dictionary<string, string>
+
+				// Replacing the Unity calls with Javascript calls, for now are calls to Backend_Fns.js
+
+				console.log("Inside Web_GetCategories() ");
+
+				//topFolderList = wwwTopFolderInfo();
+				topFolderList = await fetch(this.hostUrl + "folderInfo/0")
+					.then(function (response) {
+						//console.log("response: " + response);
+						let list = (response.text()
+							.then(function (text) {
+								console.log("list: " + text);
+								return text.split(";");
+							})
+							.catch(function (error) {
+							console.log("Error: " + error);
+							})
+						)
+						return list;
+					})
+					.catch(function (error) {
+						console.log("Error: " + error);
+					});
+					console.log("topFolderList: " + topFolderList);
+					//.split(";")
+					// TEMP input into topFolderList
+					//            topFolderList = [
+					//                "Game_Files", "1",
+					//	"GenresList", "2",
+					//];
+					for (let ii = 0; ii < topFolderList.length; ++ii)
+						console.log(topFolderList[ii]);
+
+					// This takes from the list above and puts it into a disctionary.
+					for (let ii = 0; ii < topFolderList.length - 1; ii += 2)
+					dict.set(topFolderList[ii], topFolderList[ii + 1]);
+
+					console.log(dict.get("Game_Files"));
+
+					if (dict.has("Game_Files"))
+					this.gamesFolderId = topFolderList["Game_Files"];
+					else
+					console.error("Game_Files did NOT download!");
+
+					if (dict.has("GenresList.txt"))
+					this.genresListId = topFolderList["GenresList.txt"];
+					else
+					console.error("GenresList.txt did NOT download!");
+
+
+					// Do the bulk initial load for the games files
+					let loadMaster = []; // initialLoadObj[] loadMaster = new initialLoadObj[0];
+					console.log("text list fetch: " + this.hostUrl + "bulkInitialloadforpurejs");
+					//UnityWebRequest wwwBulkCategoryInfo = UnityWebRequest.Get(hostUrl + "bulkInitialLoad");
+					//yield return wwwBulkCategoryInfo.SendWebRequest();
+
+					let wwwBulkCategoryInfo = await fetch(this.hostUrl + "bulkInitialloadforpurejs")
+					.then(function (response) {
+					//console.log("response: " + response);
+					let jsonArray = (response.text()
+					.then(function (text) {
+					console.log("jsonArray: " + text);
+					return text.split(";");
+					})
+					.catch(function (error) {
+					console.log("Error: " + error);
+					})
+					)
+					return jsonArray;
+					})
+					.catch(function (error) {
+					console.log("Error: " + error);
+					});
+					console.log("wwwBulkCategoryInfo: " + wwwBulkCategoryInfo);
+
 					/*
-					output += ", name: " + name;
-					output += ", id: " + id;
-					output += ", categories: " + categories;
-					*/
-					console.log("returning output");
-					return output;
-					}
-					/*
-					let _toGameData = function()
-					{
-					GameData newGD;
-					newGD.gameNameFileDir = name;
-					newGD.gameCategories = categories;
-					newGD.gameFolderId = id; // Grab on initial load
-					newGD.gameDescription = "";
-					newGD.gameSprites = new Dictionary<string, Sprite>
-						();
-						newGD.gameVidUrl = "";
-						newGD.isLoaded = false; // Tells whether we've already loaded all this game's data
-						return newGD;
-						}
-						*/
-
-						let initialLoadReturnObj = {
-						Banner: "Banner", // String (url)
-						//name: "name", // String
-						//id: 0, // int
-						//categories: [] // String[]
-						toString: _toString("Banner"),//, name, id, categories) // Fn to turn the data into a outputtable string
-						//toGameData: _toGameData // Fn to turn the data into data for the page
-						};
-						return initialLoadReturnObj;
-						}
-
-
-						/// <summary>
-							/// The instance of dataManager that is holding the data for all games
-							/// This must be created first
-							///
-						///</summary>
-						//public static DataManager instance
-						//{
-						//    get
-						//    {
-						//        if (!dataManager) {
-						//            dataManager = FindObjectOfType(typeof (DataManager)) as DataManager;
-
-						//            if (!dataManager) {
-						//                //Debug.error("There needs to be one active EventManger script on a GameObject in your scene.");
-						//            }
-						//            else {
-						//                //Debug.log("dataManager FillGameDataList Call");
-						//                //dataManager.FillGameDataList();
-						//            }
-						//        }
-
-						//        return dataManager;
-						//    }
-						//}
-
-						//public static Sprite ByteArrayToSprite(byte[] arr) // Return Sprite
-						//{
-						//    Texture2D texture2D = new Texture2D(100, 100, TextureFormat.RGBA32, false);
-						//    //if (UnityEngine.ImageConversion.LoadImage(texture2D, arr))
-						//    //    //if (texture2D.LoadImage(arr))
-						//    //    Debug.log("LoadImage success!");
-						//    //else
-						//    //    Debug.log("LoadImage FAILURE!!!!!!!");
-						//    texture2D.LoadRawTextureData(arr);
-						//    texture2D.Apply();
-
-						//    return Sprite.Create(texture2D, new Rect(0, 0, texture2D.width, texture2D.height), new Vector2(0, 0));
-						//}
-
-						//public static Sprite Texture2dToSprite(Texture2D texture2D)
-						//{
-						//    return Sprite.Create(texture2D, new Rect(0, 0, texture2D.width, texture2D.height), new Vector2(0, 0));
-						//}
-
-						async Web_GetCategories() // returns IEnumerator
+					//console.log("Returned from web with wwwBulkCategoryInfo");
+					if (wwwBulkCategoryInfo.isNetworkError || wwwBulkCategoryInfo.isHttpError)
+					console.log(wwwBulkCategoryInfo.error);
+					else {
+					let jsonArray = wwwBulkCategoryInfo.downloadHandler.text.Split(';'); // String[]
+					let objTemp = initialLoadObj(); // initialLoadObj objTemp = new initialLoadObj();
+					instance.gameDataList = []; // List<GameData>
+						()
+						for (let ii = 0; ii < jsonArray.Length; ++ii)
 						{
-						//TurnOnLoadingPanel();
+						objTemp =  // Get the data from JsonUtility.FromJson<initialLoadObj>
+							(jsonArray[ii]);
+							instance.gameDataList.Add(objTemp.toGameData());
 
-						// Get the two folders under the top-level folder (which is always 0)
-						let topFolderList = []; // String[]
-						const dict = new Map(); //  Dictionary<string, string>
-
-							// Replacing the Unity calls with Javascript calls, for now are calls to Backend_Fns.js
-
-							console.log("Inside Web_GetCategories() ");
-
-							//topFolderList = wwwTopFolderInfo();
-							topFolderList = await fetch(this.hostUrl + "folderInfo/0")
-							.then(function (response) {
-							//console.log("response: " + response);
-							let list = (response.text()
-							.then(function (text) {
-							console.log("list: " + text);
-							return text.split(";");
-							})
-							.catch(function (error) {
-							console.log("Error: " + error);
-							})
-							)
-							return list;
-							})
-							.catch(function (error) {
-							console.log("Error: " + error);
-							});
-							console.log("topFolderList: " + topFolderList);
-							//.split(";")
-							// TEMP input into topFolderList
-							//            topFolderList = [
-							//                "Game_Files", "1",
-							//	"GenresList", "2",
-							//];
-							for (let ii = 0; ii < topFolderList.length; ++ii)
-							console.log(topFolderList[ii]);
-
-							// This takes from the list above and puts it into a disctionary.
-							for (let ii = 0; ii < topFolderList.length - 1; ii += 2)
-							dict.set(topFolderList[ii], topFolderList[ii + 1]);
-
-							console.log(dict.get("Game_Files"));
-
-							if (dict.has("Game_Files"))
-							this.gamesFolderId = topFolderList["Game_Files"];
-							else
-							console.error("Game_Files did NOT download!");
-
-							if (dict.has("GenresList.txt"))
-							this.genresListId = topFolderList["GenresList.txt"];
-							else
-							console.error("GenresList.txt did NOT download!");
-
-
-							// Do the bulk initial load for the games files
-							let loadMaster = []; // initialLoadObj[] loadMaster = new initialLoadObj[0];
-							console.log("text list fetch: " + this.hostUrl + "bulkInitialloadforpurejs");
-							//UnityWebRequest wwwBulkCategoryInfo = UnityWebRequest.Get(hostUrl + "bulkInitialLoad");
-							//yield return wwwBulkCategoryInfo.SendWebRequest();
-
-							let wwwBulkCategoryInfo = await fetch(this.hostUrl + "bulkInitialloadforpurejs")
-							.then(function (response) {
-							//console.log("response: " + response);
-							let jsonArray = (response.text()
-							.then(function (text) {
-							console.log("jsonArray: " + text);
-							return text.split(";");
-							})
-							.catch(function (error) {
-							console.log("Error: " + error);
-							})
-							)
-							return jsonArray;
-							})
-							.catch(function (error) {
-							console.log("Error: " + error);
-							});
-							console.log("wwwBulkCategoryInfo: " + wwwBulkCategoryInfo);
-
-							/*
-							//console.log("Returned from web with wwwBulkCategoryInfo");
-							if (wwwBulkCategoryInfo.isNetworkError || wwwBulkCategoryInfo.isHttpError)
-							console.log(wwwBulkCategoryInfo.error);
+							// Get the Banner image
+							//if (objTemp.Banner.Length != 0)
+							if (objTemp.Banner != "") {
+							//UnityWebRequest www = UnityWebRequestTexture.GetTexture(hostUrl + "pic/" + objTemp.Banner);
+							//yield return www.SendWebRequest();
+							if (www.isNetworkError || www.isHttpError) {
+							console.error(www.error);
+							console.error("Failed fetch for " + hostUrl + "pic/" + objTemp.Banner);
+							}
 							else {
-							let jsonArray = wwwBulkCategoryInfo.downloadHandler.text.Split(';'); // String[]
-							let objTemp = initialLoadObj(); // initialLoadObj objTemp = new initialLoadObj();
-							instance.gameDataList = []; // List<GameData>
-								()
-								for (let ii = 0; ii < jsonArray.Length; ++ii)
-								{
-								objTemp =  // Get the data from JsonUtility.FromJson<initialLoadObj>
-									(jsonArray[ii]);
-									instance.gameDataList.Add(objTemp.toGameData());
+							// Get the url for the image
 
-									// Get the Banner image
-									//if (objTemp.Banner.Length != 0)
-									if (objTemp.Banner != "") {
-									//UnityWebRequest www = UnityWebRequestTexture.GetTexture(hostUrl + "pic/" + objTemp.Banner);
-									//yield return www.SendWebRequest();
-									if (www.isNetworkError || www.isHttpError) {
-									console.error(www.error);
-									console.error("Failed fetch for " + hostUrl + "pic/" + objTemp.Banner);
-									}
-									else {
-									// Get the url for the image
+							//Texture2D texture2D = ((DownloadHandlerTexture)www.downloadHandler).texture;
+							//instance.gameDataList[ii].gameSprites
+							//    .Add("Banner", Texture2dToSprite(texture2D));
+							}
+							}
+							}
+							}
 
-									//Texture2D texture2D = ((DownloadHandlerTexture)www.downloadHandler).texture;
-									//instance.gameDataList[ii].gameSprites
-									//    .Add("Banner", Texture2dToSprite(texture2D));
-									}
-									}
-									}
-									}
+			// Get the categories from the GenresList file
+			console.log("Inside Web_GetCategories");
+			console.log("text fetch: " + hostUrl + "textArr/" + genresListId);
+			//UnityWebRequest wwwGenresList = UnityWebRequest.Get(hostUrl + "textArr/" + genresListId);
+			//yield return wwwGenresList.SendWebRequest();
+			if (wwwGenresList.isNetworkError || wwwGenresList.isHttpError)
+			console.log(wwwGenresList.error);
+			else
+			categoryFilters = wwwGenresList.downloadHandler.text.Split(';');
+			console.log("strArr: ");
+			for (let ii = 0; ii < categoryFilters.Length; ++ii)
+			{
+			console.log(categoryFilters[ii]);
+			}
+			allCategoryFilters = [difficultyFilters.Length + singleMultiFilters.Length + categoryFilters.Length];// new string[difficultyFilters.Length + singleMultiFilters.Length + categoryFilters.Length];
+			difficultyFilters.CopyTo(allCategoryFilters, 0);
+			singleMultiFilters.CopyTo(allCategoryFilters, difficultyFilters.Length);
+			categoryFilters.CopyTo(allCategoryFilters, difficultyFilters.Length +
+			singleMultiFilters.Length);
+			for (let ii = 0; ii < allCategoryFilters.Length; ++ii)
+			currGameIdxInEachCategory.Add(0);
+			console.log("getCategories: " + categoryFilters);
 
-									// Get the categories from the GenresList file
-									console.log("Inside Web_GetCategories");
-									console.log("text fetch: " + hostUrl + "textArr/" + genresListId);
-									//UnityWebRequest wwwGenresList = UnityWebRequest.Get(hostUrl + "textArr/" + genresListId);
-									//yield return wwwGenresList.SendWebRequest();
-									if (wwwGenresList.isNetworkError || wwwGenresList.isHttpError)
-									console.log(wwwGenresList.error);
-									else
-									categoryFilters = wwwGenresList.downloadHandler.text.Split(';');
-									console.log("strArr: ");
-									for (let ii = 0; ii < categoryFilters.Length; ++ii)
-									{
-									console.log(categoryFilters[ii]);
-									}
-									allCategoryFilters = [difficultyFilters.Length + singleMultiFilters.Length + categoryFilters.Length];// new string[difficultyFilters.Length + singleMultiFilters.Length + categoryFilters.Length];
-									difficultyFilters.CopyTo(allCategoryFilters, 0);
-									singleMultiFilters.CopyTo(allCategoryFilters, difficultyFilters.Length);
-									categoryFilters.CopyTo(allCategoryFilters, difficultyFilters.Length +
-									singleMultiFilters.Length);
-									for (let ii = 0; ii < allCategoryFilters.Length; ++ii)
-									currGameIdxInEachCategory.Add(0);
-									console.log("getCategories: " + categoryFilters);
+			// Now that we have all of the surface data, we can start the user interface
+			gamePreviewPanel.SetActive(true);
 
-									// Now that we have all of the surface data, we can start the user interface
-									gamePreviewPanel.SetActive(true);
+			//FillGameDataList();
+			TurnOffLoadingPanel();
+			*/
+			}
+		}// End of DataManager class
+		////////////////////////////////////////////////////////////////////////////////////
 
-									//FillGameDataList();
-									TurnOffLoadingPanel();
-									*/
-									}
-									}// End of DataManager class
-									////////////////////////////////////////////////////////////////////////////////////
-
-									function testMake() {
-									let DM = new DataManager();
-									console.log("For key: ");
-									let ILO = DM.initialLoadObj();//GameData_factory("nameFileDir", ["cats0", "cats1"], "folderId", "descrip", ["sprites0", "s1"], "vidUrl", true);
-									console.log("ILO: " + ILO.toString);
-									}
+		function testMake() {
+			let DM = new DataManager();
+			console.log("For key: ");
+			let ILO = DM.initialLoadObj();//GameData_factory("nameFileDir", ["cats0", "cats1"], "folderId", "descrip", ["sprites0", "s1"], "vidUrl", true);
+			console.log("ILO: " + ILO.toString);
+		}
 
 
-									</script>
-									<style>
-										div.scroll {
-											margin-left: 5%;
-											margin-bottom: 5%;
-											background-color: grey;
-											width: 90%;
-											height: 70%;
-											overflow: auto;
-											overflow-y: scroll;
-											text-align: justify;
-											overflow: hidden;
-										}
+</script>
+<style>
+	div.scroll {
+		margin-left: 5%;
+		margin-bottom: 5%;
+		background-color: grey;
+		width: 90%;
+		height: 70%;
+		overflow: auto;
+		overflow-y: scroll;
+		text-align: justify;
+		overflow: hidden;
+	}
 
-											div.scroll::webkit-scroll {
-												overflow: hidden;
-											}
+		div.scroll::webkit-scroll {
+			overflow: hidden;
+		}
 
-										div.scroll {
-											-ms-overflow-style: none;
-										}
+	div.scroll {
+		-ms-overflow-style: none;
+	}
 
-										.filterScrollButton {
-											margin-top: -5%;
-											width: 25%;
-											height: 5%;
-											left: 35%;
-											position: absolute;
-										}
+	.filterScrollButton {
+		margin-top: -5%;
+		width: 25%;
+		height: 5%;
+		left: 35%;
+		position: absolute;
+	}
 
-										#gamePreviewTextButton_Top {
-											bottom: 27%;
-											margin-bottom: 2.5%;
-										}
+	#gamePreviewTextButton_Top {
+		bottom: 27%;
+		margin-bottom: 2.5%;
+	}
 
-										#gamePreviewTextButton_Bottom {
-											margin-top: -2.5%;
-										}
+	#gamePreviewTextButton_Bottom {
+		margin-top: -2.5%;
+	}
 
 
 
-										#GamePreview {
-											width: 30%;
-											height: 42.5%;
-											left: 0px;
-											bottom: 50px;
-											background-color: rgb(0, 0, 255, 1);
-											position: absolute;
-										}
+	#GamePreview {
+		width: 30%;
+		height: 42.5%;
+		left: 0px;
+		bottom: 50px;
+		background-color: rgb(0, 0, 255, 1);
+		position: absolute;
+	}
 
-										#gamePreviewImage {
-											width: 80%;
-											height: 50%;
-											margin: 10%;
-										}
+	#gamePreviewImage {
+		width: 80%;
+		height: 50%;
+		margin: 10%;
+	}
 
-										.gamePreviewImageButton {
-											width: 5%;
-											height: 10%;
-											top: 35%;
-											position: absolute;
-										}
+	.gamePreviewImageButton {
+		width: 5%;
+		height: 10%;
+		top: 35%;
+		position: absolute;
+	}
 
-										#gamePreviewImageButton_Left {
-											margin-left: 2.5%;
-										}
+	#gamePreviewImageButton_Left {
+		margin-left: 2.5%;
+	}
 
-										#gamePreviewImageButton_Right {
-											margin-left: -7.5%;
-										}
+	#gamePreviewImageButton_Right {
+		margin-left: -7.5%;
+	}
 
-										#gamePreviewTextScrollDiv {
-											margin-left: 5%;
-											margin-right: 5%;
-											margin-left: 5%;
-											height: 20%;
-										}
+	#gamePreviewTextScrollDiv {
+		margin-left: 5%;
+		margin-right: 5%;
+		margin-left: 5%;
+		height: 20%;
+	}
 
-										#gamePreviewText {
-										}
+	#gamePreviewText {
+	}
 
-										.gamePreviewTextButton {
-											margin-top: -5%;
-											width: 15%;
-											height: 3%;
-											left: 40%;
-											position: absolute;
-										}
+	.gamePreviewTextButton {
+		margin-top: -5%;
+		width: 15%;
+		height: 3%;
+		left: 40%;
+		position: absolute;
+	}
 
-										#gamePreviewTextButton_Top {
-											bottom: 27%;
-											margin-bottom: 2.5%;
-										}
+	#gamePreviewTextButton_Top {
+		bottom: 27%;
+		margin-bottom: 2.5%;
+	}
 
-										#gamePreviewTextButton_Bottom {
-											margin-top: -2.5%;
-										}
-
-
-										#GamePreviewPanel {
-											width: 40%;
-											height: 30%;
-											right: 0%;
-											top: 0px;
-											background-color: rgb(0, 255, 255, 1);
-											position: absolute;
-										}
-
-										#GamePreviewPanelGames {
-											width: 90%;
-											height: 80%;
-											left: 5%;
-											bottom: 5%;
-											background-color: rgb(0, 100, 100, 1);
-											position: absolute;
-										}
-
-										.gamePreviewPanel_Row {
-											width: 100%;
-											height: 22%;
-											background-color: rgb(0, 150, 255, 1);
-											position: relative;
-											margin-bottom: 3%;
-										}
-
-										.gamePreviewPanel_Row_LeftButton {
-											width: 5%;
-											height: 100%;
-											background-color: rgb(100, 255, 255, 1);
-											position: absolute;
-											left: 0px;
-											top: 0px;
-										}
-
-										.gamePreviewPanel_Row_RightButton {
-											width: 5%;
-											height: 100%;
-											background-color: rgb(100, 255, 255, 1);
-											position: absolute;
-											right: 0px;
-										}
-
-										.gamePreviewPanel_RowImage {
-											width: 15%;
-											height: 100%;
-											left: 7.5%;
-											margin-left: 2.5%;
-											margin-right: 2.5%;
-											background-color: rgb(100, 100, 100, 1);
-											position: relative;
-										}
+	#gamePreviewTextButton_Bottom {
+		margin-top: -2.5%;
+	}
 
 
-										#GenresPreviewPanel {
-											width: 40%;
-											height: 30%;
-											right: 0%;
-											bottom: 10%;
-											background-color: rgb(255, 0, 255, 1);
-											position: absolute;
-										}
+	#GamePreviewPanel {
+		width: 40%;
+		height: 30%;
+		right: 0%;
+		top: 0px;
+		background-color: rgb(0, 255, 255, 1);
+		position: absolute;
+	}
 
-										#GenresPreviewPanel_Images {
-											width: 100%;
-											height: 95%;
-											left: 0%;
-											top: 15%;
-											background-color: rgb(100, 0, 100, 1);
-											position: absolute;
-										}
+	#GamePreviewPanelGames {
+		width: 90%;
+		height: 80%;
+		left: 5%;
+		bottom: 5%;
+		background-color: rgb(0, 100, 100, 1);
+		position: absolute;
+	}
 
-										.genresPreviewPanel_ImagesRow {
-											width: 100%;
-											height: 15%;
-											top: 0px;
-											left: 0%;
-											margin-top: 3%;
-											background-color: rgb(50, 0, 50, 1);
-											position: relative;
-										}
+	.gamePreviewPanel_Row {
+		width: 100%;
+		height: 22%;
+		background-color: rgb(0, 150, 255, 1);
+		position: relative;
+		margin-bottom: 3%;
+	}
 
-										.genresPreviewPanel_RowImage {
-											width: 15%;
-											height: 100%;
-											top: 0px;
-											left: 0%;
-											margin-left: 7.5%;
-											background-color: rgb(50, 150, 150, 1);
-											position: relative;
-										}
+	.gamePreviewPanel_Row_LeftButton {
+		width: 5%;
+		height: 100%;
+		background-color: rgb(100, 255, 255, 1);
+		position: absolute;
+		left: 0px;
+		top: 0px;
+	}
 
-										.genresPreviewPanel_Row_TopButton {
-											width: 20%;
-											height: 10%;
-											background-color: rgb(100, 255, 255, 1);
-											position: relative;
-											left: 40%;
-											top: 0px;
-										}
+	.gamePreviewPanel_Row_RightButton {
+		width: 5%;
+		height: 100%;
+		background-color: rgb(100, 255, 255, 1);
+		position: absolute;
+		right: 0px;
+	}
 
-										.genresPreviewPanel_Row_BottomButton {
-											width: 20%;
-											height: 10%;
-											left: 40%;
-											bottom: 0px;
-											background-color: rgb(100, 255, 255, 1);
-											position: absolute;
-										}
-									</style>
-									</head>
-									<body style="background-color: rgb(255, 0, 0, 1);  width: 100%; height: 100%;">
-										<div id="FilterPanel" style="width:30%; height: 45%; left: 0px; top: 0px; background-color: rgb(0, 255, 0, 1); position: absolute;">
-											<h1 style="color: rgb(0, 0, 0, 1);">FILTER</h1>
-											<button id="filterPanelScrollButtonUp" class="filterScrollButton" onClick="filterPanel_scrollUp()"> UP </button>
-											<div id="filterScrollDiv" class="scroll">
-												<p style="color: rgb(0, 0, 0, 1);">FILTER FILTER FILTERF ILTERFILTERF ILTERFILT ERFILTERFI LTERFILTERF ILTERFILTERFI LTERFILTER FILTERF ILTER FILTER FILTER FILTERF ILTERF ILTERF ILTER FILTERF ILTERF ILTERFI LTERFILT ERFILT ERFILT ERFILTER FILTERF ILTERFI LTERFIL TERFILT ERFILTE RFILTE RFILTERF ILTERF ILTERFIL TERFILT ERFILT ERFILTE RFILTERF ILTERFI LTERFILTE RFILTERF ILTERFI LTERFI LTERFI LTER FILTE RFILTE RFILTERF ILTERFI LTERFIL TERFILT ERFILTE RFILTER FILTER FILTERF ILTERFI LTERFIL TERFIL TERFIL TERFIL TERFI LTERF ILTE RFILTERFIL TERFIL TERFI LTERFI LTERFIL TERFIL TERFIL TERFI LTERF ILTERFI LTERFI LTERFI LTERFI LTERFI LTERFIL TERFIL TERFI LTER</p>
-											</div>
-											<button id="filterPanelScrollButtonDn" class="filterScrollButton" onClick="filterPanel_scrollDown()">DOWN</button>
-										</div>
-										<div id="GamePreview">
-											<h1 style="color: rgb(0, 0, 0, 1);">GamePreview</h1>
-											<button id="gamePreviewImageButton_Left" class="gamePreviewImageButton" onClick="decrementImage()">Dec</button>
-											<image id="gamePreviewImage" src="./first.png" alt="N/A"></image>
-											<button id="gamePreviewImageButton_Right" class="gamePreviewImageButton" onClick="incrementImage()">Inc</button>
-											<button id="gamePreviewTextButton_Top" class="gamePreviewTextButton" onClick="scrollUp_GamePreviewText()">UP</button>
-											<div id="gamePreviewTextScrollDiv" class="scroll">
-												<p style="color: rgb(0, 0, 0, 1);">FILTER FILTER FILTERF ILTERFILTERF ILTERFILT ERFILTERFI LTERFILTERF ILTERFILTERFI LTERFILTER FILTERF ILTER FILTER FILTER FILTERF ILTERF ILTERF ILTER FILTERF ILTERF ILTERFI LTERFILT ERFILT ERFILT ERFILTER FILTERF ILTERFI LTERFIL TERFILT ERFILTE RFILTE RFILTERF ILTERF ILTERFIL TERFILT ERFILT ERFILTE RFILTERF ILTERFI LTERFILTE RFILTERF ILTERFI LTERFI LTERFI LTER FILTE RFILTE RFILTERF ILTERFI LTERFIL TERFILT ERFILTE RFILTER FILTER FILTERF ILTERFI LTERFIL TERFIL TERFIL TERFIL TERFI LTERF ILTE RFILTERFIL TERFIL TERFI LTERFI LTERFIL TERFIL TERFIL TERFI LTERF ILTERFI LTERFI LTERFI LTERFI LTERFI LTERFIL TERFIL TERFI LTER</p>
-											</div>
-											<button id="gamePreviewTextButton_Bottom" class="gamePreviewTextButton" onClick="scrollDown_GamePreviewText()">DOWN</button>
-										</div>
-										<div id="GamePreviewPanel">
-											<h1 style="color: rgb(0, 0, 0, 1);">GamePreviewPanel</h1>
-											<div id="GamePreviewPanelGames">
-												<div id="GamePreviewPanelRow0" class="gamePreviewPanel_Row">
-													<button onClick="testMake()" class="gamePreviewPanel_Row_LeftButton">testMake</button>
-													<image id="gamePreview_Image_00" class="gamePreviewPanel_RowImage"></image>
-													<image id="gamePreview_Image_01" class="gamePreviewPanel_RowImage"></image>
-													<image id="gamePreview_Image_02" class="gamePreviewPanel_RowImage"></image>
-													<image id="gamePreview_Image_03" class="gamePreviewPanel_RowImage"></image>
-													<button onClick="" class="gamePreviewPanel_Row_RightButton"></button>
-												</div>
-												<div id="GamePreviewPanelRow1" class="gamePreviewPanel_Row">
-													<button onClick="" class="gamePreviewPanel_Row_LeftButton"></button>
-													<image id="gamePreview_Image_10" class="gamePreviewPanel_RowImage"></image>
-													<image id="gamePreview_Image_11" class="gamePreviewPanel_RowImage"></image>
-													<image id="gamePreview_Image_12" class="gamePreviewPanel_RowImage"></image>
-													<image id="gamePreview_Image_13" class="gamePreviewPanel_RowImage"></image>
-													<button onClick="" class="gamePreviewPanel_Row_RightButton"></button>
-												</div>
-												<div id="GamePreviewPanelRow2" class="gamePreviewPanel_Row">
-												</div>
-												<div id="GamePreviewPanelRow3" class="gamePreviewPanel_Row">
-												</div>
-											</div>
-										</div>
-										<div id="GenresPreviewPanel">
-											<h1 style="color: rgb(0, 0, 0, 1);">GenresPreviewPanel</h1>
-											<div id="GenresPreviewPanel_Images">
-												<button onClick="testMake()" class="genresPreviewPanel_Row_TopButton"></button>
-												<div class="genresPreviewPanel_ImagesRow">
-													<image id="genresPreview_Image_00" class="genresPreviewPanel_RowImage"></image>
-													<image id="genresPreview_Image_01" class="genresPreviewPanel_RowImage"></image>
-													<image id="genresPreview_Image_02" class="genresPreviewPanel_RowImage"></image>
-													<image id="genresPreview_Image_03" class="genresPreviewPanel_RowImage"></image>
-												</div>
-												<div class="genresPreviewPanel_ImagesRow">
-													<image id="genresPreview_Image_10" class="genresPreviewPanel_RowImage"></image>
-													<image id="genresPreview_Image_11" class="genresPreviewPanel_RowImage"></image>
-													<image id="genresPreview_Image_12" class="genresPreviewPanel_RowImage"></image>
-													<image id="genresPreview_Image_13" class="genresPreviewPanel_RowImage"></image>
-												</div>
-												<div class="genresPreviewPanel_ImagesRow">
-													<image id="genresPreview_Image_20" class="genresPreviewPanel_RowImage"></image>
-													<image id="genresPreview_Image_21" class="genresPreviewPanel_RowImage"></image>
-													<image id="genresPreview_Image_22" class="genresPreviewPanel_RowImage"></image>
-													<image id="genresPreview_Image_23" class="genresPreviewPanel_RowImage"></image>
-												</div>
-												<div class="genresPreviewPanel_ImagesRow">
-													<image id="genresPreview_Image_30" class="genresPreviewPanel_RowImage"></image>
-													<image id="genresPreview_Image_31" class="genresPreviewPanel_RowImage"></image>
-													<image id="genresPreview_Image_32" class="genresPreviewPanel_RowImage"></image>
-													<image id="genresPreview_Image_33" class="genresPreviewPanel_RowImage"></image>
-												</div>
-												<button onClick="" class="genresPreviewPanel_Row_BottomButton"></button>
-											</div>
-										</div>
-									</body>
-									</html>
+	.gamePreviewPanel_RowImage {
+		width: 15%;
+		height: 100%;
+		left: 7.5%;
+		margin-left: 2.5%;
+		margin-right: 2.5%;
+		background-color: rgb(100, 100, 100, 1);
+		position: relative;
+	}
+
+
+	#GenresPreviewPanel {
+		width: 40%;
+		height: 30%;
+		right: 0%;
+		bottom: 10%;
+		background-color: rgb(255, 0, 255, 1);
+		position: absolute;
+	}
+
+	#GenresPreviewPanel_Images {
+		width: 100%;
+		height: 95%;
+		left: 0%;
+		top: 15%;
+		background-color: rgb(100, 0, 100, 1);
+		position: absolute;
+	}
+
+	.genresPreviewPanel_ImagesRow {
+		width: 100%;
+		height: 15%;
+		top: 0px;
+		left: 0%;
+		margin-top: 3%;
+		background-color: rgb(50, 0, 50, 1);
+		position: relative;
+	}
+
+	.genresPreviewPanel_RowImage {
+		width: 15%;
+		height: 100%;
+		top: 0px;
+		left: 0%;
+		margin-left: 7.5%;
+		background-color: rgb(50, 150, 150, 1);
+		position: relative;
+	}
+
+	.genresPreviewPanel_Row_TopButton {
+		width: 20%;
+		height: 10%;
+		background-color: rgb(100, 255, 255, 1);
+		position: relative;
+		left: 40%;
+		top: 0px;
+	}
+
+	.genresPreviewPanel_Row_BottomButton {
+		width: 20%;
+		height: 10%;
+		left: 40%;
+		bottom: 0px;
+		background-color: rgb(100, 255, 255, 1);
+		position: absolute;
+	}
+</style>
+</head>
+<body style="background-color: rgb(255, 0, 0, 1);  width: 100%; height: 100%;">
+	<div id="FilterPanel" style="width:30%; height: 45%; left: 0px; top: 0px; background-color: rgb(0, 255, 0, 1); position: absolute;">
+		<h1 style="color: rgb(0, 0, 0, 1);">FILTER</h1>
+		<button id="filterPanelScrollButtonUp" class="filterScrollButton" onClick="filterPanel_scrollUp()"> UP </button>
+		<div id="filterScrollDiv" class="scroll">
+			<p style="color: rgb(0, 0, 0, 1);">FILTER FILTER FILTERF ILTERFILTERF ILTERFILT ERFILTERFI LTERFILTERF ILTERFILTERFI LTERFILTER FILTERF ILTER FILTER FILTER FILTERF ILTERF ILTERF ILTER FILTERF ILTERF ILTERFI LTERFILT ERFILT ERFILT ERFILTER FILTERF ILTERFI LTERFIL TERFILT ERFILTE RFILTE RFILTERF ILTERF ILTERFIL TERFILT ERFILT ERFILTE RFILTERF ILTERFI LTERFILTE RFILTERF ILTERFI LTERFI LTERFI LTER FILTE RFILTE RFILTERF ILTERFI LTERFIL TERFILT ERFILTE RFILTER FILTER FILTERF ILTERFI LTERFIL TERFIL TERFIL TERFIL TERFI LTERF ILTE RFILTERFIL TERFIL TERFI LTERFI LTERFIL TERFIL TERFIL TERFI LTERF ILTERFI LTERFI LTERFI LTERFI LTERFI LTERFIL TERFIL TERFI LTER</p>
+		</div>
+		<button id="filterPanelScrollButtonDn" class="filterScrollButton" onClick="filterPanel_scrollDown()">DOWN</button>
+	</div>
+	<div id="GamePreview">
+		<h1 style="color: rgb(0, 0, 0, 1);">GamePreview</h1>
+		<button id="gamePreviewImageButton_Left" class="gamePreviewImageButton" onClick="decrementImage()">Dec</button>
+		<image id="gamePreviewImage" src="./first.png" alt="N/A"></image>
+		<button id="gamePreviewImageButton_Right" class="gamePreviewImageButton" onClick="incrementImage()">Inc</button>
+		<button id="gamePreviewTextButton_Top" class="gamePreviewTextButton" onClick="scrollUp_GamePreviewText()">UP</button>
+		<div id="gamePreviewTextScrollDiv" class="scroll">
+			<p style="color: rgb(0, 0, 0, 1);">FILTER FILTER FILTERF ILTERFILTERF ILTERFILT ERFILTERFI LTERFILTERF ILTERFILTERFI LTERFILTER FILTERF ILTER FILTER FILTER FILTERF ILTERF ILTERF ILTER FILTERF ILTERF ILTERFI LTERFILT ERFILT ERFILT ERFILTER FILTERF ILTERFI LTERFIL TERFILT ERFILTE RFILTE RFILTERF ILTERF ILTERFIL TERFILT ERFILT ERFILTE RFILTERF ILTERFI LTERFILTE RFILTERF ILTERFI LTERFI LTERFI LTER FILTE RFILTE RFILTERF ILTERFI LTERFIL TERFILT ERFILTE RFILTER FILTER FILTERF ILTERFI LTERFIL TERFIL TERFIL TERFIL TERFI LTERF ILTE RFILTERFIL TERFIL TERFI LTERFI LTERFIL TERFIL TERFIL TERFI LTERF ILTERFI LTERFI LTERFI LTERFI LTERFI LTERFIL TERFIL TERFI LTER</p>
+		</div>
+		<button id="gamePreviewTextButton_Bottom" class="gamePreviewTextButton" onClick="scrollDown_GamePreviewText()">DOWN</button>
+	</div>
+	<div id="GamePreviewPanel">
+		<h1 style="color: rgb(0, 0, 0, 1);">GamePreviewPanel</h1>
+		<div id="GamePreviewPanelGames">
+			<div id="GamePreviewPanelRow0" class="gamePreviewPanel_Row">
+				<button onClick="testMake()" class="gamePreviewPanel_Row_LeftButton">testMake</button>
+				<image id="gamePreview_Image_00" class="gamePreviewPanel_RowImage"></image>
+				<image id="gamePreview_Image_01" class="gamePreviewPanel_RowImage"></image>
+				<image id="gamePreview_Image_02" class="gamePreviewPanel_RowImage"></image>
+				<image id="gamePreview_Image_03" class="gamePreviewPanel_RowImage"></image>
+				<button onClick="" class="gamePreviewPanel_Row_RightButton"></button>
+			</div>
+			<div id="GamePreviewPanelRow1" class="gamePreviewPanel_Row">
+				<button onClick="" class="gamePreviewPanel_Row_LeftButton"></button>
+				<image id="gamePreview_Image_10" class="gamePreviewPanel_RowImage"></image>
+				<image id="gamePreview_Image_11" class="gamePreviewPanel_RowImage"></image>
+				<image id="gamePreview_Image_12" class="gamePreviewPanel_RowImage"></image>
+				<image id="gamePreview_Image_13" class="gamePreviewPanel_RowImage"></image>
+				<button onClick="" class="gamePreviewPanel_Row_RightButton"></button>
+			</div>
+			<div id="GamePreviewPanelRow2" class="gamePreviewPanel_Row">
+			</div>
+			<div id="GamePreviewPanelRow3" class="gamePreviewPanel_Row">
+			</div>
+		</div>
+	</div>
+	<div id="GenresPreviewPanel">
+		<h1 style="color: rgb(0, 0, 0, 1);">GenresPreviewPanel</h1>
+		<div id="GenresPreviewPanel_Images">
+			<button onClick="testMake()" class="genresPreviewPanel_Row_TopButton"></button>
+			<div class="genresPreviewPanel_ImagesRow">
+				<image id="genresPreview_Image_00" class="genresPreviewPanel_RowImage"></image>
+				<image id="genresPreview_Image_01" class="genresPreviewPanel_RowImage"></image>
+				<image id="genresPreview_Image_02" class="genresPreviewPanel_RowImage"></image>
+				<image id="genresPreview_Image_03" class="genresPreviewPanel_RowImage"></image>
+			</div>
+			<div class="genresPreviewPanel_ImagesRow">
+				<image id="genresPreview_Image_10" class="genresPreviewPanel_RowImage"></image>
+				<image id="genresPreview_Image_11" class="genresPreviewPanel_RowImage"></image>
+				<image id="genresPreview_Image_12" class="genresPreviewPanel_RowImage"></image>
+				<image id="genresPreview_Image_13" class="genresPreviewPanel_RowImage"></image>
+			</div>
+			<div class="genresPreviewPanel_ImagesRow">
+				<image id="genresPreview_Image_20" class="genresPreviewPanel_RowImage"></image>
+				<image id="genresPreview_Image_21" class="genresPreviewPanel_RowImage"></image>
+				<image id="genresPreview_Image_22" class="genresPreviewPanel_RowImage"></image>
+				<image id="genresPreview_Image_23" class="genresPreviewPanel_RowImage"></image>
+			</div>
+			<div class="genresPreviewPanel_ImagesRow">
+				<image id="genresPreview_Image_30" class="genresPreviewPanel_RowImage"></image>
+				<image id="genresPreview_Image_31" class="genresPreviewPanel_RowImage"></image>
+				<image id="genresPreview_Image_32" class="genresPreviewPanel_RowImage"></image>
+				<image id="genresPreview_Image_33" class="genresPreviewPanel_RowImage"></image>
+			</div>
+			<button onClick="" class="genresPreviewPanel_Row_BottomButton"></button>
+		</div>
+	</div>
+</body>
+</html>
